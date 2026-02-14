@@ -20,7 +20,7 @@ public class Order {
 	private String pickup_Address;
 	private int otp;
 	private DeliveryPartner deliveryPartner;
-	private Payment payment;
+	//private Payment payment;
 	private int estimatedTime; // in Minutes
 	private int distance;
 	private int discount;
