@@ -1,5 +1,7 @@
 package com.food.QuickBite.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,8 @@ public class DeliveryPartner {
 	private int rating;
 	private Address address;
 	private List<Order> orders;
-	private Vehicle vehicle;
-	//private PartnerStatus status; enum
+	private String vehicle;
+	//private PartnerStatus status; 
 	
 
 }
