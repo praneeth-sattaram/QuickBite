@@ -1,6 +1,12 @@
 package com.food.QuickBite.entity;
 
+import java.util.List;
+
+import com.food.QuickBite.enums.DeliveryStatus;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,8 +23,9 @@ public class DeliveryPartner {
 	private int rating;
 	private Address address;
 	private List<Order> orders;
-	private Vehicle vehicle;
-	//private PartnerStatus status; enum
+	private String vehicle;
+	@Enumerated(EnumType.STRING)
+	private DeliveryStatus deliveryStatus;
 	
 
 }
