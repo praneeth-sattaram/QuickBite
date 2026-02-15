@@ -8,6 +8,6 @@ public class RestaurantReqDto {
 	private String description;
 	private double packagingFees;
 	private String type;
-	//private type enum
+	 //private type enum
 
 }
