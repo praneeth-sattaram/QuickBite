@@ -9,5 +9,6 @@ import com.food.QuickBite.entity.DeliveryPartner;
 public interface DeliveryPartnerRepository extends JpaRepository<DeliveryPartner, Integer> {
 
 	 Optional<DeliveryPartner> findByMob(Long mob);
+	 Optional<DeliveryPartner> deleteByMob(Long mob);
 
 }

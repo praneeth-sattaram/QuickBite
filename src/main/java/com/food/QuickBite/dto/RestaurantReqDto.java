@@ -14,6 +14,7 @@ public class RestaurantReqDto {
 	private LocationCordinates locationCordinates;
 	private String description;
 	private double packagingFees;
+	@Enumerated(EnumType.STRING)
 	private FoodType foodType;
 	
 	
@@ -74,11 +75,5 @@ public class RestaurantReqDto {
 		this.foodType = foodType;
 	}
 	
-	
-	
-	
-	@Enumerated(EnumType.STRING)
-	private FoodType foodType;
-	//private type enum;
 
 }
