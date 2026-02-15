@@ -1,6 +1,6 @@
 package com.food.QuickBite.entity;
 
-import org.springframework.web.multipart.MultipartFile;
+//import org.springframework.web.multipart.MultipartFile;
 
 import com.food.QuickBite.enums.Availability;
 import com.food.QuickBite.enums.FoodType;
