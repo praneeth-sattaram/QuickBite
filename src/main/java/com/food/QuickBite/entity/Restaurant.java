@@ -6,6 +6,7 @@ import com.food.QuickBite.enums.FoodType;
 import com.food.QuickBite.enums.RestaurantStatus;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,6 +24,7 @@ public class Restaurant {
 	
 	private String name;
 	
+	@Column(unique = true)
 	private long mobNo;
 	
 	private String mailId;
