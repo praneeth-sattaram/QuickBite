@@ -2,9 +2,12 @@ package com.food.QuickBite.entity;
 
 import java.util.List;
 
+
+
 import com.food.QuickBite.enums.DeliveryStatus;
 
 import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,7 +15,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 
 @Entity
 public class DeliveryPartner {
@@ -30,9 +32,13 @@ public class DeliveryPartner {
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Orders> orders;
 	private String vehicle;
+
+
 	@Enumerated(EnumType.STRING)
 	private DeliveryStatus deliveryStatus;
-	//private PartnerStatus status;
+
+	//private PartnerStatus status; 
+
 	public DeliveryPartner(String name, long mob, String email, int rating, String address, List<Orders> orders,
 			String vehicle, DeliveryStatus deliveryStatus) {
 		super();
@@ -103,6 +109,4 @@ public class DeliveryPartner {
 		this.deliveryStatus = deliveryStatus;
 	}
 	
-	
-
 }
