@@ -13,6 +13,7 @@ public class RestaurantReqDto {
 	private LocationCordinates locationCordinates;
 	private String description;
 	private double packagingFees;
+	@Enumerated(EnumType.STRING)
 	private FoodType foodType;
 	
 	

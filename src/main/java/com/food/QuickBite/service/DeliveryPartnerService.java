@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.food.QuickBite.dto.DeliveryPartnerDto;
 import com.food.QuickBite.entity.DeliveryPartner;
 import com.food.QuickBite.exceptionHandler.DeliveryPartnerAlreadyExistsException;
+import com.food.QuickBite.exceptionHandler.DeliveryPartnerNotFound;
 import com.food.QuickBite.repository.DeliveryPartnerRepository;
 import com.food.QuickBite.responseStructure.ResponseStructure;
 
@@ -37,6 +38,33 @@ public class DeliveryPartnerService {
 	        
 	      return new ResponseEntity<>(savedPartner,HttpStatus.CREATED);
 		 
+	 }
+	 
+	 public ResponseEntity<ResponseStructure<DeliveryPartner>> find(Long mob) {
+		 
+		 DeliveryPartner dp=deliveryRepo.findByMob(mob).orElseThrow(()->new DeliveryPartnerNotFound("No registered delivery partner found"));
+		 
+		 ResponseStructure<DeliveryPartner> rs = new ResponseStructure<>();
+	        rs.setStatusCode(HttpStatus.OK.value());
+	        rs.setMessage("Delivery Partner Found Successfully");
+	        rs.setData(dp);
+		 
+	        return new ResponseEntity<>(rs, HttpStatus.OK);
+	 
+	 }
+	 
+	 public ResponseEntity<ResponseStructure<String>> delete(Long mob) {
+		 
+		 DeliveryPartner dp = deliveryRepo.findByMob(mob).orElseThrow(() ->new DeliveryPartnerNotFound("No registered delivery partner found"));
+
+		    deliveryRepo.delete(dp);
+		 ResponseStructure<String> rs = new ResponseStructure<>();
+	        rs.setStatusCode(HttpStatus.OK.value());
+	        rs.setMessage("Delivery Partner Deleted Successfully");
+	        rs.setData("Deleted");
+		 
+		return new ResponseEntity<>(rs,HttpStatus.OK);
+	 
 	 }
 
 
