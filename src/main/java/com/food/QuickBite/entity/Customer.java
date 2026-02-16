@@ -5,6 +5,7 @@ import java.util.List;
 import com.food.QuickBite.enums.Gender;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,6 +22,7 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	@Column(unique = true)
 	private long mobno;
 	private String mailId;
 	@Enumerated(EnumType.STRING)
