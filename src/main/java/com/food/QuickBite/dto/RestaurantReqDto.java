@@ -3,6 +3,9 @@ package com.food.QuickBite.dto;
 import com.food.QuickBite.enums.FoodType;
 import com.food.QuickBite.util.LocationCordinates;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
 
 
 public class RestaurantReqDto {
@@ -13,7 +16,7 @@ public class RestaurantReqDto {
 	private LocationCordinates locationCordinates;
 	private String description;
 	private double packagingFees;
-	@Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
 	private FoodType foodType;
 	
 	

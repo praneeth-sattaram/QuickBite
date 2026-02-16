@@ -1,6 +1,5 @@
 package com.food.QuickBite.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -8,46 +7,54 @@ import org.springframework.stereotype.Service;
 import com.food.QuickBite.dto.DeliveryPartnerDto;
 import com.food.QuickBite.entity.DeliveryPartner;
 import com.food.QuickBite.exceptionHandler.DeliveryPartnerAlreadyExistsException;
-import com.food.QuickBite.exceptionHandler.DeliveryPartnerNotFound;
+import com.food.QuickBite.exceptionHandler.DeliveryPartnerNotFoundException;
+import com.food.QuickBite.mapper.DeliveryPartnerMapper;
 import com.food.QuickBite.repository.DeliveryPartnerRepository;
 import com.food.QuickBite.responseStructure.ResponseStructure;
 
 @Service
 public class DeliveryPartnerService {
 
-	@Autowired
-	private DeliveryPartnerRepository deliveryRepo;
+	private final DeliveryPartnerRepository deliveryRepo;
+	private final DeliveryPartnerMapper dpMapper;
 
+	public DeliveryPartnerService(DeliveryPartnerRepository deliveryRepo, DeliveryPartnerMapper dpMapper) {
+		super();
+		this.deliveryRepo = deliveryRepo;
+		this.dpMapper = dpMapper;
+	}
 
-	 public ResponseEntity<DeliveryPartner> register(DeliveryPartnerDto dto) {
+	 public ResponseEntity<DeliveryPartnerDto> register(DeliveryPartnerDto dto) {
 		 
-		 deliveryRepo.findByMob(dto.getMob()).ifPresent(dp-> new DeliveryPartnerAlreadyExistsException("Mobile already registered"));
+		 deliveryRepo.findByMob(dto.getMob()).ifPresent(d-> {
+		        throw new DeliveryPartnerAlreadyExistsException("Mobile already registered");
+		    });
 		 
-		 DeliveryPartner dp=new DeliveryPartner();
-		 dp.setName(dto.getName());
-		 dp.setMob(dto.getMob());
-		 dp.setEmail(dto.getEmail());
-		 dp.setVehicle(dto.getVehicle());
+		 DeliveryPartner dp=dpMapper.toEntity(dto);
 		 
 		 DeliveryPartner savedPartner = deliveryRepo.save(dp);
 		 
-		 ResponseStructure<DeliveryPartner> rs = new ResponseStructure<>();
+		 DeliveryPartnerDto dpDto=dpMapper.toDto(savedPartner);
+		 
+		 ResponseStructure<DeliveryPartnerDto> rs = new ResponseStructure<>();
 	        rs.setStatusCode(HttpStatus.CREATED.value());
 	        rs.setMessage("Delivery Partner Registered Successfully");
-	        rs.setData(savedPartner);
+	        rs.setData(dpDto);
 	        
-	      return new ResponseEntity<>(savedPartner,HttpStatus.CREATED);
+	      return new ResponseEntity<>(dpDto,HttpStatus.CREATED);
 		 
 	 }
 	 
-	 public ResponseEntity<ResponseStructure<DeliveryPartner>> find(Long mob) {
+	 public ResponseEntity<ResponseStructure<DeliveryPartnerDto>> find(Long mob) {
 		 
-		 DeliveryPartner dp=deliveryRepo.findByMob(mob).orElseThrow(()->new DeliveryPartnerNotFound("No registered delivery partner found"));
+		 DeliveryPartner dp=deliveryRepo.findByMob(mob).orElseThrow(()->new DeliveryPartnerNotFoundException("No registered delivery partner found"));
 		 
-		 ResponseStructure<DeliveryPartner> rs = new ResponseStructure<>();
+		 DeliveryPartnerDto dpDto=dpMapper.toDto(dp);
+		 
+		 ResponseStructure<DeliveryPartnerDto> rs = new ResponseStructure<>();
 	        rs.setStatusCode(HttpStatus.OK.value());
 	        rs.setMessage("Delivery Partner Found Successfully");
-	        rs.setData(dp);
+	        rs.setData(dpDto);
 		 
 	        return new ResponseEntity<>(rs, HttpStatus.OK);
 	 
@@ -55,7 +62,7 @@ public class DeliveryPartnerService {
 	 
 	 public ResponseEntity<ResponseStructure<String>> delete(Long mob) {
 		 
-		 DeliveryPartner dp = deliveryRepo.findByMob(mob).orElseThrow(() ->new DeliveryPartnerNotFound("No registered delivery partner found"));
+		 DeliveryPartner dp = deliveryRepo.findByMob(mob).orElseThrow(() ->new DeliveryPartnerNotFoundException("No registered delivery partner found"));
 
 		    deliveryRepo.delete(dp);
 		 ResponseStructure<String> rs = new ResponseStructure<>();

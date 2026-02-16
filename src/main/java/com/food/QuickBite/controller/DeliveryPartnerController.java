@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.food.QuickBite.dto.DeliveryPartnerDto;
-import com.food.QuickBite.entity.DeliveryPartner;
 import com.food.QuickBite.responseStructure.ResponseStructure;
 import com.food.QuickBite.service.DeliveryPartnerService;
 
@@ -24,13 +23,13 @@ public class DeliveryPartnerController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<DeliveryPartner>  registerDeliveryPartner(@RequestBody DeliveryPartnerDto dto) {
+	public ResponseEntity<DeliveryPartnerDto>  registerDeliveryPartner(@RequestBody DeliveryPartnerDto dto) {
 		return deliveryPartnerService.register(dto);
 		
 	}
 	
 	@GetMapping("/find")
-	public ResponseEntity<ResponseStructure<DeliveryPartner>>  findDeliveryPartner(@RequestParam long mob) {
+	public ResponseEntity<ResponseStructure<DeliveryPartnerDto>>  findDeliveryPartner(@RequestParam long mob) {
 		return deliveryPartnerService.find(mob);
 		
 	}

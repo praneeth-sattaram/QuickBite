@@ -9,7 +9,7 @@ public class DeliveryPartnerDto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String name;
-	
+
 	private Long mob;
 	
     private String Email;

@@ -7,7 +7,7 @@ import java.util.List;
 import com.food.QuickBite.enums.DeliveryStatus;
 
 import jakarta.persistence.CascadeType;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,8 +21,8 @@ public class DeliveryPartner {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String name;
+	@Column(unique = true)
 	private long mob;
 	private String email;
 	private int rating;

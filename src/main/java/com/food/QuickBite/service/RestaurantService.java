@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.food.QuickBite.dto.RestaurantReqDto;
 import com.food.QuickBite.dto.RestaurantResponseDto;
 import com.food.QuickBite.entity.Restaurant;
-import com.food.QuickBite.exceptionHandler.RestaurantNotFound;
+import com.food.QuickBite.exceptionHandler.RestaurantNotFoundException;
 import com.food.QuickBite.mapper.RestaurantMapper;
 import com.food.QuickBite.exceptionHandler.RestaurantAlreadyExistsException;
 import com.food.QuickBite.repository.RestaurantRepository;
@@ -35,14 +35,14 @@ public class RestaurantService {
 
 	public RestaurantResponseDto findRestaurant(Long mobileNo) {
 		 Restaurant restaurant = restaurantRepository.findByMobNo(mobileNo)
-				.orElseThrow( ()-> new RestaurantNotFound("Restaurant with this number doesnt exists"));	
+				.orElseThrow( ()-> new RestaurantNotFoundException("Restaurant with this number doesnt exists"));	
 		 
 		 return restaurantMapper.toResponseDto(restaurant);
 	}
 
 	public RestaurantResponseDto deleteRestaurant(Long mobileNo) {
 		 Restaurant restaurant = restaurantRepository.findByMobNo(mobileNo)
-					.orElseThrow( ()-> new RestaurantNotFound("Restaurant with this number doesnt exists"));	
+					.orElseThrow( ()-> new RestaurantNotFoundException("Restaurant with this number doesnt exists"));	
 		restaurantRepository.delete(restaurant);
 		
 		return restaurantMapper.toResponseDto(restaurant);
