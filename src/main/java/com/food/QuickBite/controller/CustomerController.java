@@ -1,6 +1,8 @@
 package com.food.QuickBite.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.food.QuickBite.dto.CustomerReqDto;
+import com.food.QuickBite.entity.Customer;
+import com.food.QuickBite.responseStructure.ResponseStructure;
 import com.food.QuickBite.service.CustomerService;
 
 @RestController
@@ -22,15 +26,27 @@ public class CustomerController {
 		super();
 		this.customerService = customerService;
 	}
-
 	@PostMapping("/register")
-	public void customerRegistration(@RequestBody CustomerReqDto customerReqDto) {
-		customerService.customerRegistration(customerReqDto);
+	public ResponseEntity<ResponseStructure<Customer>> registerCustomer(@RequestBody CustomerReqDto dto) {
+
+		ResponseStructure<Customer> rs = customerService.register(dto);
+
+	    return ResponseEntity.status(rs.getStatusCode()).body(rs);
+	}
+
+
+    @GetMapping("/find")
+	public ResponseEntity<ResponseStructure<Customer>> findCustomer(@RequestParam long mobno) {
+		
+		ResponseStructure<Customer> rs=customerService.findCustomerByMobno(mobno);
+		return ResponseEntity.status(rs.getStatusCode()).body(rs);
 		
 	}
-	@GetMapping("/find")
-	public void findCustomer(@RequestParam long mob) {
-		customerService.findCustomer(mob);
-		
-	}
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseStructure<Customer>>deleteCustomer(@RequestParam long mobno) {
+
+        ResponseStructure<Customer> rs =customerService.deleteCustomerByMobno(mobno);
+
+        return ResponseEntity.status(rs.getStatusCode()).body(rs);
+}
 }
