@@ -9,7 +9,7 @@ import com.food.QuickBite.entity.Restaurant;
 	@Component
 	public class RestaurantMapper {
 
-	    // ReqDto → Entity
+	    // ReqDto -> Entity
 	    public Restaurant toEntity(RestaurantReqDto dto) {
 
 	        if (dto == null) {
@@ -26,7 +26,7 @@ import com.food.QuickBite.entity.Restaurant;
 	        return restaurant;
 	    }
 
-	    //Entity → ResponseDto
+	    //Entity -> ResponseDto
 	    public RestaurantResponseDto toResponseDto(Restaurant restaurant) {
 
 	        if (restaurant == null) {
