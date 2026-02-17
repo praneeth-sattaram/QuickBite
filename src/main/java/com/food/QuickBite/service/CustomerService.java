@@ -10,37 +10,41 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.food.QuickBite.dto.CustomerReqDto;
+import com.food.QuickBite.dto.DeliveryPartnerDto;
 import com.food.QuickBite.entity.Customer;
+import com.food.QuickBite.entity.DeliveryPartner;
 import com.food.QuickBite.exceptionHandler.CustomerAlreadyExistsException;
 import com.food.QuickBite.exceptionHandler.CustomerNotFoundException;
+import com.food.QuickBite.mapper.CustomerMapper;
 import com.food.QuickBite.repository.CustomerRepo;
 import com.food.QuickBite.responseStructure.ResponseStructure;
 
 @Service
 public class CustomerService {
-	@Autowired
+	
 	private final CustomerRepo customerRepo;
+	private final CustomerMapper customerMapper;
     
-	public CustomerService(CustomerRepo customerRepo) {
+	
+	public CustomerService(CustomerRepo customerRepo, CustomerMapper customerMapper) {
 		super();
 		this.customerRepo = customerRepo;
+		this.customerMapper = customerMapper;
 	}
 	public ResponseStructure<Customer> register(CustomerReqDto dto) {
 
-	    customerRepo.findByMobno(dto.getMob()).ifPresent(c ->  new CustomerAlreadyExistsException("Mobile already registered"));
+	    customerRepo.findByMobno(dto.getMob()).ifPresent(c ->  { throw new CustomerAlreadyExistsException("Mobile already registered");
+	    });
 
-	    Customer customer = new Customer();
-	    customer.setName(dto.getName());
-	    customer.setMobno(dto.getMob());
-	    customer.setMailId(dto.getMail());
-	    customer.setGender(dto.getGender());
+	    Customer customer = customerMapper.toEntity(dto);
 
 	    Customer savedCustomer = customerRepo.save(customer);
 
-	    ResponseStructure<Customer> rs = new ResponseStructure<>();
+	    CustomerReqDto customerDto = customerMapper.toDto(savedCustomer);
+	    ResponseStructure<CustomerReqDto> rs = new ResponseStructure<>();
 	    rs.setStatusCode(HttpStatus.CREATED.value());
 	    rs.setMessage("Customer Registered Successfully");
-	    rs.setData(savedCustomer);
+	    rs.setData(customerDto);
 
 	    return rs;
 	}
@@ -59,16 +63,16 @@ public class CustomerService {
 
 		 
 
-		        Customer customer = customerRepo.findByMobno(mobno).orElseThrow(() ->new CustomerNotFoundException("Customer Not Found"));
+		 Customer customer = customerRepo.findByMobno(mobno).orElseThrow(() ->new CustomerNotFoundException("Customer Not Found"));
 
-		        customerRepo.delete(customer);
+		  customerRepo.delete(customer);
 
-		        ResponseStructure<Customer> rs = new ResponseStructure<>();
-		        rs.setStatusCode(HttpStatus.OK.value());
-		        rs.setMessage("Customer Deleted Successfully");
-		        rs.setData(customer);
+		  ResponseStructure<Customer> rs = new ResponseStructure<>();
+		  rs.setStatusCode(HttpStatus.OK.value());
+		   rs.setMessage("Customer Deleted Successfully");
+		    rs.setData(customer);
 
-		        return rs;
+		    return rs;
 		    }
 		
 	}
